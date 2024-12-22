@@ -34,5 +34,13 @@ class ServiceListView(ListView):
 
 class ServiceDetailView(DetailView):
     model = Service
-    template_name = 'service/service_detail.html'
+    template_name = 'services/service_detail.html'
     context_object_name = 'service'
+
+class ServiceCategoryListView(ListView):
+    model = Service
+    template_name = 'services/service_category_list.html'
+    context_object_name = 'services'
+
+    def get_queryset(self):
+        return Service.objects.filter(field=self.kwargs['field'])
