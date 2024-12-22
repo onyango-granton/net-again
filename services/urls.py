@@ -9,4 +9,5 @@ urlpatterns = [
     path('services/category/<str:field>/', views.ServiceCategoryListView.as_view(), name='service_category'),
     path('services/popular/', views.PopularServicesView.as_view(), name='popular_services'),
     path('profile/', views.profile_view, name='profile'),
+    path('services/create', views.create_service, name = 'create_service')
 ]
