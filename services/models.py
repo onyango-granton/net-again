@@ -59,3 +59,9 @@ class Service(models.Model):
     def save(self, *args, **kwargs):
         self.full_clean()
         super().save(*args, **kwargs)
+
+    class Meta:
+        ordering = ['-date-created']
+
+    def __str__(self):
+        return self.name
