@@ -29,3 +29,13 @@ class Customer(models.Model):
 
     def __str__(self):
         return self.user.username
+    
+class Company(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    field_of_work = models.CharField(
+        max_length = 3,
+        choices = ServiceField.choices
+    )
+
+    def __str__(self):
+        return self.user.username
