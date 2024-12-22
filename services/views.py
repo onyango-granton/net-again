@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from .forms import CustomerRegistrationForm, CompanyRegistratioForm
 from django.contrib.auth import login
+from django.views.generic import ListView
+from .models import Service
 
 # Create your views here.
 def register_customer(request):
@@ -24,3 +26,8 @@ def register_company(request):
     else:
         form = CompanyRegistratioForm()
     return render(request, 'registration/register_company.html', {'form':form})
+
+class ServiceListView(ListView):
+    model = Service
+    template_name = 'services/service_list.html'
+    context_object_name = 'services'
