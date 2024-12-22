@@ -4,6 +4,7 @@ from django.contrib.auth import login
 from django.views.generic import ListView, DetailView
 from .models import Service
 from django.db.models import Count
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def register_customer(request):
@@ -55,3 +56,13 @@ class PopularServicesView(ListView):
         return Service.objects.annotate(
             request_count = Count('requests')
         ).order_by('-request_count')[:10]
+    
+@login_required
+def profile_view(request):
+    user = request.user
+    if user.is_company:
+        services = user.company.services.all()
+        return render(request, 'profiles/company_profile.html',{'services':services})
+    else:
+        service_requests = user.customer.service_requests.all()
+        return render(request, 'profiles/customer_profile.html', {'service_requests': service_requests})
