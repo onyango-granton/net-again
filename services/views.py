@@ -95,6 +95,10 @@ def request_service(request, service_id):
         messages.error(request, "Companies cannot request services")
         return redirect('home')
     
+    if not hasattr(request.user, 'customer'):
+        messages.error(request, "You must create a customer profile to request for a service")
+        return redirect('profile')
+    
     service = get_object_or_404(Service, pk=service_id)
 
     if request.method == 'POST':
