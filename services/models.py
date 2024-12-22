@@ -45,7 +45,7 @@ class Service(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
     field = models.CharField(
-        max_length=3
+        max_length=3,
         choices=[(k,v) for k,v in ServiceField if k != 'ALL']
     )
     price_per_hour = models.DecimalField(max_digits=10, decimal_places=2)
