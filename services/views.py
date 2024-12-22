@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import CustomerRegistrationForm, ServiceForm,CompanyRegistratioForm
+from .forms import CustomerRegistrationForm, ServiceRequestForm,ServiceForm,CompanyRegistratioForm
 from django.contrib.auth import login
 from django.views.generic import ListView, DetailView
 from .models import Service
@@ -88,3 +88,24 @@ def create_service(request):
     else:
         form = ServiceForm()
     return render(request, 'services/create_service.html', {'form':form})
+
+@login_required
+def request_service(request, service_id):
+    if request.user.is_company:
+        messages.error(request, "Companies cannot request services")
+        return redirect('home')
+    
+    service = get_object_or_404(Service, pk=service_id)
+
+    if request.method == 'POST':
+        form = ServiceRequestForm(request.POST)
+        if form.is_valid():
+            service_request = form.save(commit=False)
+            service_request.service = service
+            service_request.customer = request.user.customer
+            service_request.save()
+            return redirect('profile')
+    else:
+        form = ServiceRequestForm()
+
+    return render(request, 'services/request_service.html', {'form':form, 'service':service})
