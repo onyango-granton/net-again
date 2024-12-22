@@ -46,7 +46,7 @@ class Service(models.Model):
     description = models.TextField()
     field = models.CharField(
         max_length=3,
-        choices=[(k,v) for k,v in ServiceField if k != 'ALL']
+        choices=[(k,v) for k,v in ServiceField.choices if k != 'ALL']
     )
     price_per_hour = models.DecimalField(max_digits=10, decimal_places=2)
     date_created = models.DateField(auto_now_add=True)
@@ -61,7 +61,7 @@ class Service(models.Model):
         super().save(*args, **kwargs)
 
     class Meta:
-        ordering = ['-date-created']
+        ordering = ['-date_created']
 
     def __str__(self):
         return self.name
