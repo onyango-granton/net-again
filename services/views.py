@@ -1,10 +1,12 @@
-from django.shortcuts import render, redirect
-from .forms import CustomerRegistrationForm, CompanyRegistratioForm
+from django.shortcuts import render, redirect, get_object_or_404
+from .forms import CustomerRegistrationForm, ServiceForm,CompanyRegistratioForm
 from django.contrib.auth import login
 from django.views.generic import ListView, DetailView
 from .models import Service
 from django.db.models import Count
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.core.exceptions import ValidationError
 
 # Create your views here.
 def register_customer(request):
@@ -66,3 +68,23 @@ def profile_view(request):
     else:
         service_requests = user.customer.service_requests.all()
         return render(request, 'profiles/customer_profile.html', {'service_requests': service_requests})
+    
+@login_required
+def create_service(request):
+    if not request.user.is_company:
+        messages.error(request, "Only companies can create services")
+        return redirect('home')
+    
+    if request.method == 'POST':
+        form = ServiceForm(request.POST)
+        if form.is_valid():
+            service = form.save(commit=False)
+            service.company = request.user.company
+            try:
+                service.save()
+                return redirect('service_detail', pk=service.pk)
+            except ValidationError as e:
+                form.add_error(None, e.message)
+    else:
+        form = ServiceForm()
+    return render(request, 'services/create_service.html', {'form':form})
