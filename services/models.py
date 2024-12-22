@@ -65,3 +65,17 @@ class Service(models.Model):
 
     def __str__(self):
         return self.name
+    
+class ServiceRequest(models.Model):
+    service = models.ForeignKey(Service, on_delete=models.CASCADE, related_name="requests")
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="service_requests")
+    address = models.TextField()
+    service_time = models.PositiveBigIntegerField()
+    date_requested = models.DateTimeField(auto_now_add=True)
+
+    @property
+    def total_cost(self):
+        return self.service.price_per_hour * self.service_time
+    
+    def __str__(self):
+        return f"{self.service.name} requested by {self.customer.user.username}"
