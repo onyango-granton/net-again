@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import User, Customer, ServiceField, Company
+from .models import User, Customer, ServiceField, Company, Service
 
 class CustomerRegistrationForm(UserCreationForm):
     date_of_birth = forms.DateField(widget=forms.DateInput(attrs={'type':'date'}))
@@ -38,4 +38,7 @@ class CompanyRegistratioForm(UserCreationForm):
         )
         return user
     
-    
+class ServiceForm(forms.ModelForm):
+    class Meta:
+        model = Service
+        fields = ['name','description','field','price_per_hour']
