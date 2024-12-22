@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .forms import CustomerRegistrationForm, CompanyRegistratioForm
 from django.contrib.auth import login
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from .models import Service
 
 # Create your views here.
@@ -31,3 +31,8 @@ class ServiceListView(ListView):
     model = Service
     template_name = 'services/service_list.html'
     context_object_name = 'services'
+
+class ServiceDetailView(DetailView):
+    model = Service
+    template_name = 'service/service_detail.html'
+    context_object_name = 'service'
