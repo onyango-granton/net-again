@@ -14,8 +14,8 @@ class CustomerRegistrationForm(UserCreationForm):
         user.is_company = False
         if commit:
             user.save()
-            Customer.objects.create(
-                user = user,
-                date_of_birth = self.cleaned_data['date_of_birth']
-            )
+        Customer.objects.create(
+            user = user,
+            date_of_birth = self.cleaned_data['date_of_birth']
+        )
         return user
