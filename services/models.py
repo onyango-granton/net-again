@@ -23,3 +23,9 @@ class ServiceField(models.TextChoices):
     PLUMBING = 'PLU', 'Plumbing'
     WATER_HEATERS = 'WAT', 'Water Heaters'
 
+class Customer(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    date_of_birth = models.DateField()
+
+    def __str__(self):
+        return self.user.username
