@@ -3,6 +3,7 @@ from .forms import CustomerRegistrationForm, CompanyRegistratioForm
 from django.contrib.auth import login
 from django.views.generic import ListView, DetailView
 from .models import Service
+from django.db.models import Count
 
 # Create your views here.
 def register_customer(request):
@@ -44,3 +45,13 @@ class ServiceCategoryListView(ListView):
 
     def get_queryset(self):
         return Service.objects.filter(field=self.kwargs['field'])
+    
+class PopularServicesView(ListView):
+    model = Service
+    template_name = 'services/popular_services.html'
+    context_object_name = 'services'
+
+    def get_queryset(self):
+        return Service.objects.annotate(
+            request_count = Count('requests')
+        ).order_by('-request_count')[:10]
