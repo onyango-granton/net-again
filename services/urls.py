@@ -8,5 +8,5 @@ urlpatterns = [
     path('services/<int:pk>/', views.ServiceDetailView.as_view(), name='service_detail'),
     path('services/category/<str:field>/', views.ServiceCategoryListView.as_view(), name='service_category'),
     path('services/popular/', views.PopularServicesView.as_view(), name='popular_services'),
-    path()
+    path('profile/', views.profile_view, name='profile'),
 ]
