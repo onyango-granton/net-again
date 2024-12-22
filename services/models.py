@@ -4,6 +4,8 @@ from django.core.exceptions import ValidationError
 
 # Create your models here.
 class User(AbstractUser):
+    groups = None
+    user_permissions = None
     email = models.EmailField(unique=True)
     is_company = models.BooleanField(default=False)
 
