@@ -1,0 +1,25 @@
+<!-- templates/services/service_detail.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <h1>{{ service.name }}</h1>
+    <p class="service-price">${{ service.price_per_hour }}/hour</p>
+    <p><strong>Field:</strong> {{ service.get_field_display }}</p>
+    <p><strong>Provider:</strong> 
+        <a href="{% url 'company_profile' service.company.user.username %}">
+            {{ service.company.user.username }}
+        </a>
+    </p>
+    <p><strong>Created:</strong> {{ service.date_created|date:"F j, Y" }}</p>
+    <div class="mt-2">
+        <h3>Description</h3>
+        <p>{{ service.description }}</p>
+    </div>
+    {% if user.is_authenticated and not user.is_company %}
+    <div class="mt-2">
+        <a href="{% url 'request_service' service.pk %}" class="btn btn-primary">Request Service</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
