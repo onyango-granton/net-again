@@ -2,6 +2,29 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from .models import User, Customer, ServiceField, ServiceRequest,Company, Service
 
+class LoginForm(forms.Form):
+    email = forms.EmailField(
+        widget=forms.EmailInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter your email',
+            'autocomplete': 'email'
+        })
+    )
+    password = forms.CharField(
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter your password',
+            'autocomplete': 'current-password'
+        })
+    )
+    remember_me = forms.BooleanField(
+        required=False,
+        initial=True,
+        widget=forms.CheckboxInput(attrs={
+            'class': 'form-check-input'
+        })
+    )
+
 class CustomerRegistrationForm(UserCreationForm):
     date_of_birth = forms.DateField(widget=forms.DateInput(attrs={'type':'date'}))
 
