@@ -1,14 +1,51 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import CustomerRegistrationForm, ServiceRequestForm,ServiceForm,CompanyRegistratioForm
-from django.contrib.auth import login
-from django.views.generic import ListView, DetailView
+from .forms import CustomerRegistrationForm, ServiceRequestForm,ServiceForm,CompanyRegistratioForm, LoginForm
+from django.contrib.auth import login, authenticate
+from django.views.generic import ListView, DetailView, FormView
 from .models import Service
+from django.urls import reverse_lazy
 from django.db.models import Count
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.exceptions import ValidationError
 
 # Create your views here.
+class LoginView(FormView):
+    template_name = 'services/auth/login.html'
+    form_class = LoginForm
+    success_url = reverse_lazy('home')  # Redirect to home page after successful login
+
+    def form_valid(self, form):
+        email = form.cleaned_data.get('email')
+        password = form.cleaned_data.get('password')
+        remember_me = form.cleaned_data.get('remember_me')
+        
+        user = authenticate(self.request, email=email, password=password)
+        
+        if user is not None:
+            login(self.request, user)
+            
+            # If remember_me is False, set session to expire when browser closes
+            if not remember_me:
+                self.request.session.set_expiry(0)
+            
+            # Redirect to next URL if available
+            next_url = self.request.GET.get('next')
+            if next_url:
+                return redirect(next_url)
+                
+            messages.success(self.request, 'Successfully logged in!')
+            return super().form_valid(form)
+        else:
+            messages.error(self.request, 'Invalid email or password.')
+            return self.form_invalid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Login'
+        return context
+
+
 def register_customer(request):
     if request.method == 'POST':
         form = CustomerRegistrationForm(request.POST)
