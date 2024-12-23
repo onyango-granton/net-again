@@ -1,0 +1,22 @@
+<!-- templates/services/service_list.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="mb-2">Available Services</h1>
+<div class="grid">
+    {% for service in services %}
+    <div class="service-card">
+        <div class="service-card-content">
+            <h3>{{ service.name }}</h3>
+            <p class="service-price">${{ service.price_per_hour }}/hour</p>
+            <p>{{ service.description|truncatewords:30 }}</p>
+            <p><strong>Field:</strong> {{ service.get_field_display }}</p>
+            <p><strong>Provider:</strong> {{ service.company.user.username }}</p>
+            <a href="{% url 'service_detail' service.pk %}" class="btn btn-primary mt-1">View Details</a>
+        </div>
+    </div>
+    {% empty %}
+    <p>No services available.</p>
+    {% endfor %}
+</div>
+{% endblock %}
