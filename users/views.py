@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, get_user_model  # Add get_user_model
 from django.views.generic import CreateView, TemplateView
-
 from .forms import CustomerSignUpForm, CompanySignUpForm, UserLoginForm
-from .models import User, Company, Customer
+from .models import Company, Customer
 
+User = get_user_model()  
 
 def register(request):
     return render(request, 'users/register.html')

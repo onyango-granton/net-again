@@ -4,21 +4,23 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 class User(AbstractUser):
-    groups = None
-    user_permissions = None
     is_company = models.BooleanField(default=False)
     is_customer = models.BooleanField(default=False)
     email = models.CharField(max_length=100, unique=True)
 
+    class Meta:
+        permissions = []  
+
 
 class Customer(models.Model):
-    user = models.AutoField(primary_key=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)  # Fix this line
     birth = models.DateField(null=True, blank=True)
+    
     def __str__(self):
-        return str(self.id) + ' - ' + self.user.username
+        return f"{self.user.id} - {self.user.username}"
 
 
-
+  
 class Company(models.Model):
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, primary_key=True)
