@@ -1,0 +1,33 @@
+{% extends 'main/base.html' %} 
+    {% block title %}
+        NetFix
+    {% endblock %}
+
+{% block content %}
+        <div class="image-block">
+            <img class="cover-image" src="static/css/image3.jpg" alt="logo">
+        </div>
+        <div class='services-list'>
+        {% if services %}
+            <div class="services">
+                <p class="title">Most Requested Services</p>
+            </div>
+            {% for service in services %}
+            <div class="services-container">
+                <div class='service-list-info'>
+                    <li><a href="/services/{{service.id}}">
+                        {{ service.name }} 
+                        <pre>{{ service.description }}</pre>
+                        </a> ({{service.field}}) -- {{ service.price_hour }}€/hour. Created at {{ service.date }}
+                    </li>
+                </div>
+                <p class="service-footer">by <a href="/company/{{service.company.user.slug}}">{{service.company.user.username}}</a></p>
+            </div>
+        {% endfor %}
+        {% else %}
+            <div class="not-available">
+                <h2>Sorry. No services available yet</h2>
+            </div>   
+        {% endif %}
+        </div>
+{% endblock %}
