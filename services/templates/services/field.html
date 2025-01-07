@@ -1,0 +1,31 @@
+{% extends 'main/base.html' %}
+{% block title %}
+    {{field}} Services List
+{% endblock %}
+{% block content %}
+    {% if services.all|length != 0 %}
+        <div class="service-title">
+            <p class="title">{{field}} Services</p>
+        </div>
+
+        <div class='services-list'>
+            {% for service in services.all %}
+                <div class="services-container">
+                    <div class='service-list-info'>
+                        <li><a href="/services/{{service.id}}">
+                            {{ service.name }} 
+                            <pre>{{ service.description }}</pre>
+                            </a> -- {{ service.price_hour }}€/hour
+                        </li>
+                    </div>
+                    <p class="service-footer">by <a href="/company/{{service.company.user.slug}}">{{service.company.user.username}}</a></p>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="not-available">
+            <h2>Sorry. No {{field}} services available</h2>
+        </div>
+    {% endif %}
+{% endblock %}
+
