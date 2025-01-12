@@ -9,7 +9,7 @@ find . -type f | while read -r file; do
   filename=$(basename "$file")
   
   # Create a commit message
-  commit_message="init add $filename after reset"
+  commit_message="init add $filename"
   
   # Commit the file
   git commit -m "$commit_message"
