@@ -2,7 +2,7 @@
     <ul>
         <li class="home"><a href="/">Netfix</a></li>
 
-        <div class="right-align-links">
+        
             <li>
                 <a href="/services/">Services</a>
                 <ul>
@@ -20,7 +20,7 @@
                 </ul>
             </li>
 
-            <div class="auth-links">
+            
                 {% if request.user.is_authenticated %}
                     {% if request.user.is_customer %}
                         <li><a href="/customer/{{ request.user.slug }}">Profile</a></li>
@@ -32,8 +32,8 @@
                     <li><a href="/register/login/">Login</a></li>
                     <li><a href="/register/">Sign up</a></li>
                 {% endif %}
-            </div>
-        </div>
+            
+       
     </ul>
 </nav>
 
