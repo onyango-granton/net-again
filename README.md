@@ -14,7 +14,7 @@ Welcome to **NetFix**, a web-based marketplace for home services. This platform 
    - View profile, including past requested services.
 
 2. **Company**:
-   - Register with email, username, field of work, and password.
+   - Register with email, usernamMachinese, field of work, and password.
    - Create and manage services based on their field of expertise.
    - View profile, including all provided services.
 
@@ -75,22 +75,17 @@ Welcome to **NetFix**, a web-based marketplace for home services. This platform 
    source venv/bin/activate  # On Windows: venv\Scripts\activate
    ```
 
-3. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. Apply migrations:
+3. Apply migrations:
    ```bash
    python manage.py migrate
    ```
 
-5. Run the development server:
+4. Run the development server:
    ```bash
    python manage.py runserver
    ```
 
-6. Access the application at [http://127.0.0.1:8000](http://127.0.0.1:8000).
+5. Access the application at [http://127.0.0.1:8000](http://127.0.0.1:8000).
 
 ---
 
